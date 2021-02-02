@@ -54,6 +54,6 @@ Differences between this NRMP derivation and the original NRMP include:
 
 - If any confusion arises about the difference between the hospital data format and the student data format, a demonstration image is included: `data_demonstration.png`
 
-- For examples of this format, see:
+- For examples, see:
     - example1_hospital_data.txt, example2_hospital_data.txt for hospital data formatting
     - example1_student_data.txt, example2_student_data.txt for student data formatting
