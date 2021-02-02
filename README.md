@@ -8,23 +8,23 @@ Difference between this NRMP derivation and the original NRMP include:
 
 ## Instructions
 ### How to run
-    - To run the program, simply run assignment1_part2_cpsc482_isayharaposo.py
-        - For reference, this program was written in Python 3.8.6, and requires the package "Tabulate", which can be installed using Pip by running `pip install tabulate`
-        - The program will ask for the names of the two desired input data files during execution unless the two names are specified as arguments on the command line when running the program
-            - e.g., `assignment1_part2_cpsc482_isayharaposo.py example1_hospital_data.txt example1_student_data.txt` will run the program with the hospital and student data files used in example 1 (see **Examples**) specified
-            - Note that the hospital data file should be the first argument, and the student data file should be the second
-            - Also note that the file extension must be specified when specifying input data file names
-            - Lastly, the input data files must be in the same directory as the program itself
+- To run the program, simply run assignment1_part2_cpsc482_isayharaposo.py
+    - For reference, this program was written in Python 3.8.6, and requires the package "Tabulate", which can be installed using Pip by running `pip install tabulate`
+    - The program will ask for the names of the two desired input data files during execution unless the two names are specified as arguments on the command line when running the program
+        - e.g., `assignment1_part2_cpsc482_isayharaposo.py example1_hospital_data.txt example1_student_data.txt` will run the program with the hospital and student data files used in example 1 (see **Examples**) specified
+        - Note that the hospital data file should be the first argument, and the student data file should be the second
+        - Also note that the file extension must be specified when specifying input data file names
+        - Lastly, the input data files must be in the same directory as the program itself
 ### Examples
-    - Two sets of example data are given:
-        - example1_hospital_data.txt, example1_student_data.txt
-        - example2_hospital_data.txt, example2_student_data.txt
-    - Images of the example data (input) can be found under the names:
-        - example1_input.png
-        - example2_input.png
-    - Images of corresponding output can be found under the names:
-        - example1_output.png
-        - example2_output.png
+- Two sets of example data are given:
+    - example1_hospital_data.txt, example1_student_data.txt
+    - example2_hospital_data.txt, example2_student_data.txt
+- Images of the example data (input) can be found under the names:
+    - example1_input.png
+    - example2_input.png
+- Images of corresponding output can be found under the names:
+    - example1_output.png
+    - example2_output.png
 ### How to format input data
 - For data input, this program accepts two distinctly formatted text files, one for hospital data, and one for student data
     - Said files must be formatted correctly, otherwise the program will either catch data formatting issue(s) and exit,
