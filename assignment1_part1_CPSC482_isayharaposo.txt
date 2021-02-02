@@ -8,9 +8,9 @@ S = Solution set (set of all hospital-student matches)
 
 All m are within M and all n are within N
 
-Initially all m and n are unmatched
+Initially all m and n are unmatched; S is empty
 
-While there remains a hospital m with at least one (1) slot available that has not yet provided an offer to each student n with N
+While there remains a hospital m with at least one (1) slot available that has not yet provided an offer to each student n within N
     Choose such a hospital m
     While m has at least one (1) slot available
         Let n be the highest-rank student in m's preference list to whom m has not yet provided an offer

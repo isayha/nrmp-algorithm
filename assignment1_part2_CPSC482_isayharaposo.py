@@ -62,6 +62,14 @@ matches = [None] * studentCount # Used to store matches (index = hospital number
 nextHospitalsToMatch = [] # List of hospitals that will have slots available to fill in the next iteration of the while loop below (if any)
 # See inline comment for hospitalsToMatch (lines 17 - 19)
 
+iterationCount = 0 # Used in debugging to help ensure a time complexity of O(hospitalCount*studentCount)
+
+# Algorithm:
+# Note that we remove a student from a hospital's preference list immediately after said hospital provides an offer to said
+# student, to ensure that repeat (redundant) offers are not provided.
+# Also note that variables hospitalsToMatch and nextHospitalsToMatch are used instead of simply iterating through every single
+# hospitals for each iteration of the outer while loop, as the latter would be redundant (as only hospitals with slot(s)
+# available need to be considered during each iteration).
 while totalSlotsAvailable > 0:
     for hospital in hospitalsToMatch:
         hospitalPrefList = hospitalPrefLists[hospital]
@@ -82,10 +90,10 @@ while totalSlotsAvailable > 0:
                     hospitalSlots[hospital] -= 1
                     hospitalSlots[otherHospital] += 1
             hospitalPrefList.pop(0)
+            iterationCount += 1 # # Used in debugging to help ensure a time complexity of O(hospitalCount*studentCount)
             if hospitalSlots[hospital] == 0:
                 break
     hospitalsToMatch = nextHospitalsToMatch
 
 print("\nResults:")
 print(tabulate(enumerate(matches), headers=["Student:", "Hospital:"]))
-
