@@ -30,22 +30,22 @@ def getInputFile(desiredFile, specifier):
     return inputFile
 
 # Main input file handling:
-def getInputStreams(arguments):
-    hospitalDataStream = None
-    studentDataStream = None
+def getData(arguments):
+    hospitalData = None
+    studentData = None
     if len(arguments) > 1:
         print("1st argument (hospital data file name) detected.")
         print("Finding file...")
-        hospitalDataStream = getInputFile(arguments[1], "hospital data")
+        hospitalData = getInputFile(arguments[1], "hospital data")
         if len(arguments) > 2:
             print("2nd argument (student data file name) detected.")
             print("Finding file...")
-            studentDataStream = getInputFile(arguments[2], "student data")
+            studentData = getInputFile(arguments[2], "student data")
         else:
             print("2nd argument (student data file name) not detected.")
-            studentDataStream = getInputFile(None, "student data")
+            studentData = getInputFile(None, "student data")
     else:
         print("No arguments detected.")
-        hospitalDataStream = getInputFile(None, "hospital data")
-        studentDataStream = getInputFile(None, "student data")
-    return hospitalDataStream, studentDataStream
+        hospitalData = getInputFile(None, "hospital data")
+        studentData = getInputFile(None, "student data")
+    return hospitalData, studentData

@@ -7,40 +7,46 @@
 import sys
 from files import *
 
-print(len(sys.argv))
-hospitalDataStream, studentDataStream = getInputStreams(sys.argv)
+hospitalData, studentData = getData(sys.argv)
 
-totalSlotsAvailable = 0
-hospitalSlots = []
-hospitalPrefLists = [] # Contains ordered lists of preferred students for each hospital
-studentPrefLists = [] # Contains ordered lists of preferred hospital for each student
+totalSlotsAvailable = 0 # Contains the total number of slots (positions) available across all hospitals
+hospitalSlots = [] # Contains the number of slots (positions) available at each hospital
+hospitalPrefLists = [] # Contains list of hospital's preferred students (ordered from most to least preferred) for each hospital
+studentPrefLists = [] # Contains list of student's preferred hospitals (ordered from most to least preferred) for each student
 
-hospitalNumber = 0
-dataLine = hospitalDataStream.readline().strip('\n')
+hospitalCount = 0
+dataLine = hospitalData.readline().strip('\n')
 while not (dataLine == ""):
     slots, prefsLine = dataLine.split(": ")
     hospitalSlots.append(slots)
     totalSlotsAvailable += int(slots)
     prefs = prefsLine.split(", ")
     hospitalPrefLists.append([int(student) for student in prefs])
-    hospitalNumber += 1
-    dataLine = hospitalDataStream.readline().strip('\n')
+    hospitalCount += 1
+    dataLine = hospitalData.readline().strip('\n')
 
-studentNumber = 0
-dataLine = studentDataStream.readline().strip('\n')
+studentCount = 0
+dataLine = studentData.readline().strip('\n')
 while not (dataLine == ""):
     prefs = dataLine.split(", ")
     studentPrefLists.append([int(hospital) for hospital in prefs])
-    studentNumber += 1
-    dataLine = studentDataStream.readline().strip('\n')
+    studentCount += 1
+    dataLine = studentData.readline().strip('\n')
 
 hospitalSlots = [int(slots) for slots in hospitalSlots]
 
-matches = [None] * len(studentPrefLists)
+if studentCount < totalSlotsAvailable:
+    print("Data issue detected:")
+    print("totalSlotsAvailable greater than studentCount.")
+    print("Please check and/or correct data.")
+    print("Exiting...")
+    sys.exit(1)
 
-print(str(hospitalSlots) + "\n")
-print(str(studentPrefLists) + "\n")
-print(str(hospitalPrefLists) + "\n")
+matches = [None] * studentCount
+
+print(str(hospitalSlots) + "\n") # TEST ONLY
+print(str(studentPrefLists) + "\n") # TEST ONLY
+print(str(hospitalPrefLists) + "\n") # TEST ONLY
 
 while any(hospitalSlots):
     for hospital, hospitalPrefList in enumerate(hospitalPrefLists):
