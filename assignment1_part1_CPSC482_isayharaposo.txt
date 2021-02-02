@@ -1,0 +1,24 @@
+Following the pseudocode format used in the textbook...
+
+m = Hospital
+M = Set of all Hospitals
+n = Student
+N = Set of all Students
+S = Solution set (set of all hospital-student matches)
+
+Initially all m within M and n within N are unmatched
+
+While there remains a hospital m with at least one free slot that has not yet provided an offer to each student n within N
+    Choose such a hospital m
+    Let n be the highest-rank student in m's preference list to whom m has not yet provided an offer
+    If n is unmatched then
+        m and n become matched -> (m, n) is added to solution set S
+    Else if n is currently matched to some other hospital m' then
+        If n prefers m to m' then
+            m and n become matched -> (m, n)
+        Else
+            continue to next loop interation
+        Endif
+    Endif
+Endwhile
+Return S
