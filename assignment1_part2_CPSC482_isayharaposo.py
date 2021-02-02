@@ -83,14 +83,14 @@ while totalSlotsAvailable > 0:
             elif not (otherHospital == hospital):
                 hospitalRanking = studentPrefLists[student][hospital]
                 otherHospitalRanking = studentPrefLists[student][otherHospital]
-                if hospitalRanking > otherHospitalRanking:
+                if hospitalRanking < otherHospitalRanking:
                     matches[student] = hospital
                     if hospitalSlots[otherHospital] == 0:
                         nextHospitalsToMatch.append(otherHospital)
                     hospitalSlots[hospital] -= 1
                     hospitalSlots[otherHospital] += 1
             hospitalPrefList.pop(0)
-            iterationCount += 1 # # Used in debugging to help ensure a time complexity of O(hospitalCount*studentCount)
+            iterationCount += 1 # Used in debugging to help ensure a time complexity of O(hospitalCount*studentCount)
             if hospitalSlots[hospital] == 0:
                 break
     hospitalsToMatch = nextHospitalsToMatch

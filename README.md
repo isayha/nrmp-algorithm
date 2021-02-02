@@ -35,16 +35,22 @@ Differences between this NRMP derivation and the original NRMP include:
             - Slot count of less than 1 for some hospital(s)
             - Preference list of size not equal to hospital count for some student(s)
             - Total (cumulative) slot count greater than or equal to student count
-    - All data is numeric; hospitals and students are each referred to via distinct numbers
-    - Correct formatting of the hospital data file is as follows:
-        - Each line should contain data for a single hospital (line 0 contains data regarding hospital 0, etc.)
-        - Each line should start with the hospital slot count, followed by the hospital's preference list; the two should be separated
-        by a colon followed by a space (`: `)
-        - Each student number in the hospital's preference list should be separated by a comma followed by a space (`, `)
-    - Correct formatting of the student data file is as follows:
-        - Each line should contain data for a single student (line 0 contains data regarding student 0, etc.)
-        - Each line consists solely of the corresponding student's preference list, and so each hospital number therein should be separated by a comma followed by a space (`, `)
-    - The preference lists should be ordered from most desired to least desired when read left to right (the student or hospital number (value) at rank (index) 0 is more desired than that at rank (index) 1, etc.)
-    - For examples of this format, see:
-        - example1_hospital_data.txt, example2_hospital_data.txt for hospital data formatting
-        - example1_student_data.txt, example2_student_data.txt for student data formatting
+    - All data is numeric; hospitals and students are each referred to via numbers (sequential and beginning at 0)
+
+- Correct formatting of the hospital data file is as follows:
+    - Each line should contain data for a single hospital (line 0 contains data regarding hospital 0, etc.)
+    - Each line should start with the hospital slot count, followed by the hospital's preference list; the two should be separated by a colon followed by a space (`: `)
+    - A hospital's preference list should be ordered from most desired to least desired when read left to right. The indexes correspond to ranks, and the values correspond to student numbers:
+        - e.g., The student number (value) at rank (index) 0 is more desired than that at rank (index) 1, etc.
+    - Each student number in a hospital's preference list should be separated by a comma followed by a space (`, `)
+
+- Correct formatting of the student data file is as follows:
+    - Each line should contain data for a single student (line 0 contains data regarding student 0, etc.)
+    - A student's preference list, unlike those of the hospitals, ***should NOT be ordered from most desired to least desired when read left to right***. Instead, to ensure the proper time complexity of the program, the preference lists of the students are arranged in an ***inverse*** manner:
+        - In other words, in a student's preference list, the *indexes* correspond to hospital numbers and the *values* correspond to ranks:
+            e.g., The first item (index 0) in a student's preference list has a value that corresponds to their *ranking* of *hospital 0*, the second item (index 1) in a student's preference list has a value that corresponds to their *ranking* of *hospital 1*, etc.
+    - Each line consists solely of the corresponding student's preference list, and so each ranking therein should be separated by a comma followed by a space (`, `)
+
+- For examples of this format, see:
+    - example1_hospital_data.txt, example2_hospital_data.txt for hospital data formatting
+    - example1_student_data.txt, example2_student_data.txt for student data formatting
