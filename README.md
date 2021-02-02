@@ -2,7 +2,8 @@
 A Python implementation of (a derivative of) the National Residency Matching Program (NRMP) algorithm. This algorithm is similar to the Gale-Shapley algorithm; hospitals provide offers to students and students make decisions (either accept or decline said offers). Some key differences between this NRMP derivation and the Gale-Shapley include:
 1. A hospital may be "matched" with one *or more* student(s) (depending on the number of "slots" said hospital has)
 2. The total (cumulative) number of slots across all hospitals is less than the total number of students, meaning that some students will not be matched to a hospital (there is a *surplus* of students)
-<br>Differences between this NRMP derivation and the original NRMP include:
+<br>
+Differences between this NRMP derivation and the original NRMP include:
 1. Rankings (preferences lists) are exhaustive for both students and hospitals, meaning that each student must rank each hospital and vice versa (no exclusions)
 2. There may be no *tied* (equal) rankings of students or hospitals (there may be no *indifference*)
 
