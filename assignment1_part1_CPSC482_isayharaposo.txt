@@ -10,17 +10,18 @@ All m are within M and all n are within N
 
 Initially all m and n are unmatched
 
-While there remains a hospital m with at least one (1) slot available that is not matched to some student n
+While there remains a hospital m with at least one (1) slot available that has not yet provided an offer to each student n with N
     Choose such a hospital m
-    Let n be the highest-rank student in m's preference list to whom m has not yet provided an offer
-    If n is unmatched then
-        m and n become matched -> (m, n) is added to solution set S
-    Else if n is currently matched to some other hospital m' then
-        If n prefers m to m' then
-            m and n become matched -> (m, n)
-        Else
-            continue to next loop interation
+    While m has at least one (1) slot available
+        Let n be the highest-rank student in m's preference list to whom m has not yet provided an offer
+        If n is unmatched then
+            m and n become matched -> (m, n) is added to solution set S
+        Else if n is currently matched to some other hospital m' then
+            If n prefers m to m' then
+                m and n become matched -> (m, n) is added to solution set S
+                m' and n become unmatched -> (m', n) is removed from solution set S
+            Endif
         Endif
-    Endif
+    Endwhile
 Endwhile
 Return S

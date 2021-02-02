@@ -55,7 +55,7 @@ while not (dataLine == ""):
     studentCount += 1
     dataLine = studentData.readline().strip('\n')
 
-handleDataIssue((studentCount < totalSlotsAvailable), "totalSlotsAvailable greater than studentCount.")
+handleDataIssue((studentCount <= totalSlotsAvailable), "totalSlotsAvailable greater than or equal to studentCount.")
 
 matches = [None] * studentCount # Used to store matches (index = hospital number, value = student number)
 
@@ -65,7 +65,8 @@ nextHospitalsToMatch = [] # List of hospitals that will have slots available to 
 while totalSlotsAvailable > 0:
     for hospital in hospitalsToMatch:
         hospitalPrefList = hospitalPrefLists[hospital]
-        for student in hospitalPrefList:
+        while len(hospitalPrefList) > 0:
+            student = hospitalPrefList[0]
             otherHospital = matches[student]
             if otherHospital is None:
                 matches[student] =  hospital
@@ -80,6 +81,7 @@ while totalSlotsAvailable > 0:
                         nextHospitalsToMatch.append(otherHospital)
                     hospitalSlots[hospital] -= 1
                     hospitalSlots[otherHospital] += 1
+            hospitalPrefList.pop(0)
             if hospitalSlots[hospital] == 0:
                 break
     hospitalsToMatch = nextHospitalsToMatch
