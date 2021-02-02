@@ -1,5 +1,6 @@
 # Sourced and modified from a previous (CPSC 300) assignment
 
+import sys
 import os
 
 # Obtains the name of a desired input file from the user (unless the name is pre-specified via parameter desiredFile) 
@@ -49,3 +50,12 @@ def getData(arguments):
         hospitalData = getInputFile(None, "hospital data")
         studentData = getInputFile(None, "student data")
     return hospitalData, studentData
+
+# Data formatting issue handling:
+def handleDataIssue(issue, specifier):
+    if issue:
+        print("Data issue detected:")
+        print(specifier)
+        print("Please check and/or correct data.")
+        print("Exiting...")
+        sys.exit(1)

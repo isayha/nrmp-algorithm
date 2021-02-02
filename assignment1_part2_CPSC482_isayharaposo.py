@@ -6,94 +6,84 @@
 
 import sys
 from files import *
+from tabulate import tabulate # Requires package "tabulate" (pip install tabulate)
 
 hospitalData, studentData = getData(sys.argv)
 
-totalSlotsAvailable = 0 # Contains the total number of slots (positions) available across all hospitals
+totalSlotsAvailable = 0 # The total number of slots (positions) available across all hospitals
 hospitalSlots = [] # Contains the number of slots (positions) available at each hospital
-hospitalPrefLists = [] # Contains list of hospital's preferred students (ordered from most to least preferred) for each hospital
-studentPrefLists = [] # Contains list of student's preferred hospitals (ordered from most to least preferred) for each student
+# index = hospital number, value = slots available
+hospitalPrefLists = [] # Contains each hospital's list of preferred students ordered from most to least preferred
+# index = hospital number, value = preference list, preference list index = rank (least index = most preferred), preference list value = student number
+studentPrefLists = [] # Contains each student's list of preferred hospitals ordered from most to least preferred
+# index = student number, value = preference list, preference list index = rank (least index = most preferred), preference list value = hospital number
+hospitalsToMatch = [] # Used to optimize situations in which a later hospital matches to a student previously
+# matched to an earlier hospital, which unmatches said student from the earlier hospital
+# (Contains only the hospital numbers of hospitals where the number of slots available is greater than 0, and thus
+# removes any need for checking the number of available slots at each hospital to determine whether or not they have slots
+# to fill)
+# index = arbitrary, value = hospital number
 
-hospitalCount = 0
+# Parse hospitalData:
+hospitalCount = 0 # The total number of hospitals
 dataLine = hospitalData.readline().strip('\n')
 while not (dataLine == ""):
-    slots, prefsLine = dataLine.split(": ")
-    hospitalSlots.append(slots)
+    try:
+        slots, prefsLine = dataLine.split(": ")
+    except ValueError:
+        handleDataIssue(True, ("hospitalData incorrectly formatted for hospital " + str(hospitalCount) + "."))
+
+    handleDataIssue((int(slots) < 1), ("Hospital " + str(hospitalCount) + " has less than 1 slot available."))
+
+    hospitalSlots.append(int(slots))
     totalSlotsAvailable += int(slots)
     prefs = prefsLine.split(", ")
     hospitalPrefLists.append([int(student) for student in prefs])
+    hospitalsToMatch.append(hospitalCount)
     hospitalCount += 1
     dataLine = hospitalData.readline().strip('\n')
 
-studentCount = 0
+# Parse studentData:
+studentCount = 0 # The total number of students
 dataLine = studentData.readline().strip('\n')
 while not (dataLine == ""):
     prefs = dataLine.split(", ")
+
+    handleDataIssue((len(prefs) != hospitalCount), ("Preference list length for student " + str(studentCount) + " not equal to hospitalCount."))
+    
     studentPrefLists.append([int(hospital) for hospital in prefs])
     studentCount += 1
     dataLine = studentData.readline().strip('\n')
 
-hospitalSlots = [int(slots) for slots in hospitalSlots]
+handleDataIssue((studentCount < totalSlotsAvailable), "totalSlotsAvailable greater than studentCount.")
 
-if studentCount < totalSlotsAvailable:
-    print("Data issue detected:")
-    print("totalSlotsAvailable greater than studentCount.")
-    print("Please check and/or correct data.")
-    print("Exiting...")
-    sys.exit(1)
+matches = [None] * studentCount # Used to store matches (index = hospital number, value = student number)
 
-matches = [None] * studentCount
+nextHospitalsToMatch = [] # List of hospitals that will have slots available to fill in the next iteration of the while loop below (if any)
+# See inline comment for hospitalsToMatch (lines 17 - 19)
 
-print(str(hospitalSlots) + "\n") # TEST ONLY
-print(str(studentPrefLists) + "\n") # TEST ONLY
-print(str(hospitalPrefLists) + "\n") # TEST ONLY
-
-while any(hospitalSlots):
-    for hospital, hospitalPrefList in enumerate(hospitalPrefLists):
-        print(hospital)
-        if hospitalSlots[hospital] > 0:
-            for student in hospitalPrefList:
-                otherHospital = matches[student]
-                if otherHospital is None:
-                    matches[student] =  hospital
+while totalSlotsAvailable > 0:
+    for hospital in hospitalsToMatch:
+        hospitalPrefList = hospitalPrefLists[hospital]
+        for student in hospitalPrefList:
+            otherHospital = matches[student]
+            if otherHospital is None:
+                matches[student] =  hospital
+                hospitalSlots[hospital] -= 1
+                totalSlotsAvailable -= 1
+            elif not (otherHospital == hospital):
+                hospitalRanking = studentPrefLists[student][hospital]
+                otherHospitalRanking = studentPrefLists[student][otherHospital]
+                if hospitalRanking > otherHospitalRanking:
+                    matches[student] = hospital
+                    if hospitalSlots[otherHospital] == 0:
+                        nextHospitalsToMatch.append(otherHospital)
                     hospitalSlots[hospital] -= 1
-                elif not (otherHospital == hospital):
-                    hospitalRanking = studentPrefLists[student][hospital]
-                    otherHospitalRanking = studentPrefLists[student][otherHospital]
-                    if hospitalRanking > otherHospitalRanking:
-                        matches[student] = hospital
-                        hospitalSlots[hospital] -= 1
-                        hospitalSlots[otherHospital] += 1
-                print(matches)
-                print(hospitalSlots)
-                if hospitalSlots[hospital] == 0:
-                    break
+                    hospitalSlots[otherHospital] += 1
+            if hospitalSlots[hospital] == 0:
+                break
+    hospitalsToMatch = nextHospitalsToMatch
 
-print(matches)
-
-# Change hospitals to numbers? That way the pref list for students can just have index = hospital and value = rank, rather than the opposite
-# Maybe use "any()"?
-
-# Main input file processing:
-# .readline()
-
-# What we don't know:
-# Maybe we do two input files?
-# Maybe we do more than one .py/proper OOP?
-# Do hospitals have more than one slot?
-# Does each hospital need to rank each student (and vice versa)?
-    # (Can there be exclusions)
-# Can there be "tied" rankings among hospitals (or students)
-    # This is the same as *indifference* in the rankings
-
-# What we do know:
-# Assume a surplus of students
-# Hospitals "propose" (provide offers) to students
-    # In the Gale-Shapley Algorithm this would make the
-    # Hospitals men and the Students women
-# Should terminate when no hospital (hospital slot?) is free
-    # While there is a hospital who is free and hasn't provided an
-    # offer to every student...
-    # Should be O(m*n)
-        # (At most, every Hospital proposes to every Student)
+print("\nResults:")
+print(tabulate(enumerate(matches), headers=["Student:", "Hospital:"]))
 
