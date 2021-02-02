@@ -46,10 +46,13 @@ Differences between this NRMP derivation and the original NRMP include:
 
 - Correct formatting of the student data file is as follows:
     - Each line should contain data for a single student (line 0 contains data regarding student 0, etc.)
-    - A student's preference list, unlike those of the hospitals, ***should NOT be ordered from most desired to least desired when read left to right***. Instead, to ensure the proper time complexity of the program, the preference lists of the students are arranged in an ***inverse*** manner:
+    - A student's preference list, unlike those of the hospitals, *should NOT be ordered from most desired to least desired when read left to right*. Instead, *to ensure the proper time complexity of the program*, the preference lists of the students are arranged in an *inverse* manner:
         - In other words, in a student's preference list, the *indexes* correspond to hospital numbers and the *values* correspond to ranks:
-            e.g., The first item (index 0) in a student's preference list has a value that corresponds to their *ranking* of *hospital 0*, the second item (index 1) in a student's preference list has a value that corresponds to their *ranking* of *hospital 1*, etc.
+            - e.g., The first item (index 0) in a student's preference list has a value that corresponds to their *ranking* of *hospital 0*, the second item (index 1) in a student's preference list has a value that corresponds to their *ranking* of *hospital 1*, etc.
+            - e.g., If the value at index 0 is less than that at index 2 in some student's preference list, this means that said student *prefers hospital 0 over hospital 2*.
     - Each line consists solely of the corresponding student's preference list, and so each ranking therein should be separated by a comma followed by a space (`, `)
+
+- If any confusion arises about the difference between the hospital data format and the student data format, a demonstration image is included: `data_demonstration.png`
 
 - For examples of this format, see:
     - example1_hospital_data.txt, example2_hospital_data.txt for hospital data formatting

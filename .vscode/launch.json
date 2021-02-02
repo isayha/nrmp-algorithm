@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["example1_hospital_data.txt", "example1_student_data.txt"]
+            "args": ["example2_hospital_data.txt", "example2_student_data.txt"]
         }
     ]
 }
